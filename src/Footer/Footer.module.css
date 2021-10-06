@@ -1,0 +1,11 @@
+.footerWrapper {
+    border-top: 0.25rem solid #272727;
+    min-height: 8vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footerLink {
+    margin: 0 0.5rem 0 0.15rem;
+}
