@@ -1,6 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Avatar, Card, Col, Typography } from 'antd';
-import { CommentOutlined, StarOutlined, StarTwoTone } from '@ant-design/icons';
+import { CommentOutlined, StarOutlined } from '@ant-design/icons';
+import { addFavorite, removeFavorite } from '../../app/actions/favorites';
+import style from './ResultCard.module.css';
 
 const { Meta } = Card;
 const { Link } = Typography;
@@ -8,58 +10,36 @@ const { Link } = Typography;
 const ResultCard = ({ gist }) => {
   const { description, id, owner, html_url } = gist;
 
-  const [isFavorite, setIsFavorite] = useState(false);
+  const { favoritesIdHash } = useSelector((state) => state);
+  const dispatch = useDispatch();
 
-  const cardTitle = (
-    <Link href={html_url} target="_blank">
-      Gist {id}
-    </Link>
-  );
+  const isFavorite = typeof favoritesIdHash[id] !== 'undefined';
 
-  const cardActions = [
-    <CommentOutlined disabled />,
-  ];
-
-  const onClickFavorite = () => {
-    setIsFavorite(!isFavorite);
-  };
-
-  useEffect(() => {
-    const favorites = localStorage.getItem('gistr-favorites');
-
-    if (typeof favorites === 'undefined' || favorites === null || favorites === '') {
-      localStorage.setItem('gistr-favorites', JSON.stringify([]));
-    }
-  }, []);
-
-  useEffect(() => {
-    const favorites = JSON.parse(localStorage.getItem('gistr-favorites'));
-
-    let updatedFavorites = [];
+  const onClickFavorite = (id, gist) => {
     if (isFavorite) {
-      updatedFavorites = favorites.concat(gist);
-    } else {
-      updatedFavorites = favorites.filter((favorite) => favorite.id !== id);
+      dispatch(removeFavorite(id));
+      return;
     }
 
-    localStorage.setItem('gistr-favorites', JSON.stringify(updatedFavorites));
-  }, [isFavorite]);
-
-  if (isFavorite) {
-    cardActions.push(<StarTwoTone twoToneColor="#E2EF70" onClick={onClickFavorite} />);
-  } else {
-    cardActions.push(<StarOutlined onClick={onClickFavorite} />);
-  }
+    dispatch(addFavorite(gist));
+  };
 
   return (
     <Col span={12}>
       <Card
         key={id}
-        actions={cardActions}
+        actions={[
+          <CommentOutlined />,
+          <StarOutlined className={isFavorite ? style.starIconFavorited : null} onClick={() => onClickFavorite(id, gist)} />,
+        ]}
       >
         <Meta
           avatar={<Avatar src={owner.avatar_url} />}
-          title={cardTitle}
+          title={(
+            <Link href={html_url} target="_blank">
+              Gist {id}
+            </Link>
+          )}
           description={description !== '' ? description : '(no description provided)'}
         />
       </Card>

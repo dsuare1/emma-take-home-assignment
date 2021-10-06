@@ -1,19 +1,23 @@
+import { Provider } from 'react-redux';
 import Header from './Header/Header';
 import Search from './Search/Search';
 import Favorites from './Favorites/Favorites';
 import Footer from './Footer/Footer';
+import store from './app/store';
 import './App.css';
 
-function App() {
+const App = () => {
   return (
-    <div>
-      <Header />
-      <div className="main">
-        <Search />
-        <Favorites />
+    <Provider store={store}>
+      <div>
+        <Header />
+        <div className="main">
+          <Search />
+          <Favorites />
+        </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
+    </Provider>
   );
 }
 
