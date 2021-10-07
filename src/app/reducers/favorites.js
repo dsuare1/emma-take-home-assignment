@@ -1,5 +1,4 @@
 import types from '../actions/types';
-import { loadFavoritesFromLocalStorage } from '../../helpers/localStorageHelpers';
 
 const initialState = {
   favorites: [],
@@ -36,12 +35,6 @@ export default (state = initialState, action) => {
         favorites: state.favorites.filter((favorite) => favorite.id !== id),
         favoritesIdHash: remainingFavoriteIds,
       }
-    }
-
-    case types.LOAD_FAVORITES_FROM_LOCAL_STORAGE: {
-      const favoritesInLocalStorage = loadFavoritesFromLocalStorage();
-
-      return { ...state, favorites: favoritesInLocalStorage };
     }
 
     default:

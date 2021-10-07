@@ -1,12 +1,6 @@
 import types from './types';
 import { addToLocalStorage, removeFromLocalStorage } from '../../helpers/localStorageHelpers';
 
-export function loadFavoritesFromLocalStorage() {
-  return {
-    type: types.LOAD_FAVORITES_FROM_LOCAL_STORAGE,
-  }
-}
-
 export function addFavorite(gist) {
   addToLocalStorage(gist);
 

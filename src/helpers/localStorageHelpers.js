@@ -8,37 +8,47 @@ function getOrInitializeFavoritesArray() {
   return favorites;
 }
 
+function getOrInitializeFavoritesIdHash() {
+  let favoritesIdHash = JSON.parse(localStorage.getItem('gistr-favorites-id-hash'));
+
+  if (typeof favoritesIdHash === 'undefined' || favoritesIdHash === null) {
+    favoritesIdHash = {};
+  }
+
+  return favoritesIdHash;
+}
+
 export function addToLocalStorage(gist) {
   const favorites = getOrInitializeFavoritesArray();
+  const favoritesIdHash = getOrInitializeFavoritesIdHash();
+
   const updatedFavorites = favorites.concat(gist);
+  const updatedFavoritesIdHash = {
+    ...favoritesIdHash,
+    [gist.id]: true,
+  }
 
   localStorage.setItem('gistr-favorites', JSON.stringify(updatedFavorites));
-
-  // let updatedFavorites;
-  //
-  // if (typeof favorites === 'undefined' || favorites === null) {
-  //   updatedFavorites = [gist];
-  //
-  //   localStorage.setItem('gistr-favorites', JSON.stringify(updatedFavorites));
-  //   return;
-  // }
-  //
-  // updatedFavorites = favorites.concat(gist);
-  //
-  // localStorage.setItem('gistr-favorites', JSON.stringify(updatedFavorites));
+  localStorage.setItem('gistr-favorites-id-hash', JSON.stringify(updatedFavoritesIdHash));
 }
 
 export function removeFromLocalStorage(id) {
   const favorites = getOrInitializeFavoritesArray();
+  const favoritesIdHash = getOrInitializeFavoritesIdHash();
+
   const updatedFavorites = favorites.filter((favorite) => favorite.id !== id);
+  const { [id]: _, ...remainingFavoriteIds } = favoritesIdHash;
 
   localStorage.setItem('gistr-favorites', JSON.stringify(updatedFavorites));
-  // const favorites = JSON.parse(localStorage.getItem('gistr-favorites'));
-  // const updatedFavorites = favorites.filter((favorite) => favorite.id !== id);
-  //
-  // localStorage.setItem('gistr-favorites', JSON.stringify(updatedFavorites));
+  localStorage.setItem('gistr-favorites-id-hash', JSON.stringify(remainingFavoriteIds));
 }
 
 export function loadFavoritesFromLocalStorage() {
-  return getOrInitializeFavoritesArray();
+  const favoritesArray = getOrInitializeFavoritesArray();
+  const favoritesIdHash = getOrInitializeFavoritesIdHash();
+
+  return {
+    favoritesArray,
+    favoritesIdHash,
+  }
 }

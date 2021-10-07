@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Avatar, Card, Col, Typography } from 'antd';
 import { CommentOutlined, StarOutlined } from '@ant-design/icons';
 import { addFavorite, removeFavorite } from '../../app/actions/favorites';
+import { loadFavoritesFromLocalStorage} from '../../helpers/localStorageHelpers';
 import style from './ResultCard.module.css';
 
 const { Meta } = Card;
@@ -11,9 +12,15 @@ const ResultCard = ({ gist }) => {
   const { description, id, owner, html_url } = gist;
 
   const { favoritesIdHash } = useSelector((state) => state);
+  const { favoritesIdHash: idHashInLocalStorage } = loadFavoritesFromLocalStorage();
+  const mergedIdHash = {
+    ...favoritesIdHash,
+    ...idHashInLocalStorage,
+  };
+
   const dispatch = useDispatch();
 
-  const isFavorite = typeof favoritesIdHash[id] !== 'undefined';
+  const isFavorite = typeof mergedIdHash[id] !== 'undefined';
 
   const onClickFavorite = (id, gist) => {
     if (isFavorite) {
