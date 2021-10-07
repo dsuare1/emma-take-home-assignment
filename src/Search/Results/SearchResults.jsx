@@ -1,20 +1,26 @@
-import { Row } from 'antd';
+import { Row, Spin } from 'antd';
 import PropTypes from 'prop-types';
 import ResultCard from './ResultCard';
+import Spinner from '../../Spinner/Spinner';
+import EmptyState from '../../EmptyState/EmptyState';
 import { gistsArray } from '../../constants/propTypesModels';
 import style from './SearchResults.module.css';
 
-const SearchResults = ({ gists }) => {
+const SearchResults = ({ gists, isLoading }) => {
+  if (isLoading) {
+    return <Spinner />
+  }
+
   if (!gists.length) {
     return (
-      <p>:( search to find more gists</p>
+      <EmptyState />
     );
   }
 
   return (
     <div className={style.resultsWrapper}>
       <Row gutter={[16,16]}>
-        {gists.map((gist) => <ResultCard key={gist.id} gist={gist} />)}
+        {gists.map((gist) => <ResultCard key={gist.id} gist={gist} colSpan={12} />)}
       </Row>
     </div>
   );

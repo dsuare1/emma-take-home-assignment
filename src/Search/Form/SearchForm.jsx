@@ -1,11 +1,12 @@
-import { Button, Form, Input } from 'antd';
 import PropTypes from 'prop-types';
+import { Button, Form, Input, Typography } from 'antd';
 import style from './SearchForm.module.css';
-import { getGistsForUser } from '../../restClient/actions';
+import { getPublicGists, getGistsForUser } from '../../restClient/api';
 
 const { Item } = Form;
+const { Text, Title } = Typography;
 
-const SearchForm = ({ renderClearButton, setGists }) => {
+const SearchForm = ({ renderClearButton, setGists, setIsLoading }) => {
   const [form] = Form.useForm();
 
   const clearAll = () => {
@@ -19,52 +20,72 @@ const SearchForm = ({ renderClearButton, setGists }) => {
     setGists([]);
   };
 
-  const onFinish = (values) => {
-    const { username } = values;
+  const handleGetPublicGists = () => {
+    setIsLoading(true);
 
-    getGistsForUser(username)
+    getPublicGists()
       .then((res) => {
-        console.log(res);
         const { data } = res;
         setGists(data);
       })
       .catch((err) => {
         console.error(err);
       })
+      .finally(() => setIsLoading(false));
   };
 
-  const onChangeSearchInput = (e) => {
-    const { value } = e.target;
+  const onGetByUsernameFinish = (values) => {
+    setIsLoading(true);
+    const { username } = values;
 
-    if (!value) {
-      clearAll();
-    }
+    getGistsForUser(username)
+      .then((res) => {
+        const { data } = res;
+        setGists(data);
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+      .finally(() => setIsLoading(false));
   };
 
   const onClearResults = () => clearAll();
 
   return (
-    <Form layout="vertical" form={form} onFinish={onFinish}>
-      <Item name="username" label="Enter a GitHub username">
-        <Input allowClear placeholder="dsuare1" onChange={onChangeSearchInput} />
-      </Item>
-      <div className={style.formFooter}>
-        <Item>
-          <Button type="primary">Get Gists</Button>
-        </Item>
-        {renderClearButton ? (
-          <Item>
-            <Button type="secondary" onClick={onClearResults}>Clear Results</Button>
+    <>
+      <div className={style.inputsWrapper}>
+        <div>
+          <Title level={4}>Get Public Gists</Title>
+          <Button className={style.getPublicButton} type="primary" onClick={handleGetPublicGists}>
+            Get Public Gists
+          </Button>
+        </div>
+        <Form layout="vertical" form={form} onFinish={onGetByUsernameFinish}>
+          <Item name="username" label={<Title level={4}>Enter a GitHub username</Title>}>
+            <Input allowClear placeholder="dsuare1" />
           </Item>
-        ) : null}
+          <div className={style.formFooter}>
+            <Item>
+              <Button type="primary" htmlType="submit" className={style.formFooterItem}>
+                Get Gists For User
+              </Button>
+            </Item>
+            {renderClearButton ? (
+              <Item>
+                <Button type="secondary" onClick={onClearResults}>Clear Results</Button>
+              </Item>
+            ) : null}
+          </div>
+        </Form>
       </div>
-    </Form>
+    </>
   );
 }
 
 SearchForm.propTypes = {
   renderClearButton: PropTypes.bool.isRequired,
   setGists: PropTypes.func.isRequired,
+  setIsLoading: PropTypes.func.isRequired,
 };
 
 export default SearchForm;

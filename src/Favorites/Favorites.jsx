@@ -21,7 +21,7 @@ const Favorites = () => {
   return (
     <div className={style.favoritesWrapper}>
       <Title level={4}>Favorites</Title>
-      {favoritesArray.map((favorite) => <ResultCard key={favorite.id} gist={favorite} />)}
+      {favoritesArray.map((favorite) => <ResultCard key={favorite.id} gist={favorite} colSpan={24} />)}
     </div>
   );
 };

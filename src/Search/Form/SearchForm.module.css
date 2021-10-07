@@ -1,6 +1,24 @@
-.formFooter {
+.inputsWrapper {
     display: grid;
-    grid-template-columns: repeat(2, auto);
-    grid-gap: 1rem;
-    width: 20%;
+    grid-template-columns: auto 1fr;
+    grid-gap: 4rem;
+}
+
+.getPublicButton {
+    margin-top: 0.5rem;
+}
+
+.formFooter {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    max-width: 25%;
+}
+
+.formFooterItem {
+    margin-right: 0.5rem;
+}
+
+.infoIcon {
+    margin-bottom: 24px;
 }

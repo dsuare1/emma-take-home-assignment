@@ -1,3 +1,10 @@
 .favoritesWrapper {
+    background: hsla(171, 87%, 67%, 1);
+    background: linear-gradient(280deg, hsla(171, 87%, 67%, 1) 0%, hsla(236, 100%, 72%, 1) 100%);
+    background: -moz-linear-gradient(280deg, hsla(171, 87%, 67%, 1) 0%, hsla(236, 100%, 72%, 1) 100%);
+    background: -webkit-linear-gradient(280deg, hsla(171, 87%, 67%, 1) 0%, hsla(236, 100%, 72%, 1) 100%);
+    border-left: 1px solid #4a4a4a;
     padding: 1rem 4rem;
+    max-height: 74vh;
+    overflow-y: scroll;
 }

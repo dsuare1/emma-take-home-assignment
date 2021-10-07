@@ -1,3 +1,25 @@
+.card {
+    box-shadow: 0 10px 6px -6px #777;
+    margin: 1rem 0 !important;
+}
+
+.usernameLink {
+    margin-bottom: 1rem;
+}
+
+.descriptionContainer {
+    color: red;
+}
+
+.createdDate {
+    font-size: 0.75rem;
+    margin-top: 1rem;
+}
+
+.commentsIcon {
+    margin-left: 0.25rem;
+}
+
 .starIconFavorited {
     color: #E2EF70 !important;
 }

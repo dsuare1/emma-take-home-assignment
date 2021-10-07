@@ -1,6 +1,6 @@
 import types from '../actions/types';
 
-const initialState = {
+export const initialState = {
   favorites: [],
   favoritesIdHash: {},
   isLoading: false,
@@ -21,7 +21,6 @@ export default (state = initialState, action) => {
         }
       }
 
-      debugger;
       return result;
     }
 
