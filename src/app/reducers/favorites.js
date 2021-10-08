@@ -7,7 +7,7 @@ export const initialState = {
   hasError: false,
 };
 
-export default (state = initialState, action) => {
+const reducer = (state = initialState, action) => {
   switch (action.type) {
     case types.ADD_FAVORITE: {
       const { gist } = action;
@@ -39,4 +39,6 @@ export default (state = initialState, action) => {
     default:
       return initialState;
   }
-}
+};
+
+export default reducer;
