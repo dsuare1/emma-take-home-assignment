@@ -14,6 +14,8 @@ const Favorites = () => {
     return <Spin />;
   }
 
+  // this is a good way to handle network errors (if were fetching favorites from a REST
+  // call, for example)
   if (hasError) {
     return <Text type="danger">Oops! We've encountered an error</Text>
   }

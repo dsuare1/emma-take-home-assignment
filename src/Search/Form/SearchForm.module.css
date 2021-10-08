@@ -19,6 +19,7 @@
     margin-right: 0.5rem;
 }
 
-.infoIcon {
-    margin-bottom: 24px;
+.getPublicGistsWrapper {
+    border-right: 1px solid #dfdfdf;
+    padding-right: 4rem;
 }

@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import { Button, Form, Input, Typography } from 'antd';
-import style from './SearchForm.module.css';
 import { getPublicGists, getGistsForUser } from '../../restClient/api';
+import style from './SearchForm.module.css';
 
 const { Item } = Form;
-const { Text, Title } = Typography;
+const { Title } = Typography;
 
 const SearchForm = ({ renderClearButton, setGists, setIsLoading }) => {
   const [form] = Form.useForm();
@@ -54,7 +54,7 @@ const SearchForm = ({ renderClearButton, setGists, setIsLoading }) => {
   return (
     <>
       <div className={style.inputsWrapper}>
-        <div>
+        <div className={style.getPublicGistsWrapper}>
           <Title level={4}>Get Public Gists</Title>
           <Button className={style.getPublicButton} type="primary" onClick={handleGetPublicGists}>
             Get Public Gists

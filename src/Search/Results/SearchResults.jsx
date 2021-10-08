@@ -1,9 +1,9 @@
-import { Row, Spin } from 'antd';
 import PropTypes from 'prop-types';
+import { Row } from 'antd';
 import ResultCard from './ResultCard';
 import Spinner from '../../Spinner/Spinner';
 import EmptyState from '../../EmptyState/EmptyState';
-import { gistsArray } from '../../constants/propTypesModels';
+import { gist } from '../../constants/propTypesModels';
 import style from './SearchResults.module.css';
 
 const SearchResults = ({ gists, isLoading }) => {
@@ -28,8 +28,9 @@ const SearchResults = ({ gists, isLoading }) => {
 
 SearchResults.propTypes = {
   gists: PropTypes.arrayOf(
-    PropTypes.shape(gistsArray)
+    PropTypes.shape(gist)
   ).isRequired,
+  isLoading: PropTypes.bool.isRequired,
 };
 
 export default SearchResults;

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-export const gistsArray = {
+export const gist = {
   'url': PropTypes.string,
   'forks_url': PropTypes.string,
   'commits_url': PropTypes.string,

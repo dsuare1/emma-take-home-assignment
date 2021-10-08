@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { Avatar, Card, Col, Tooltip, Typography } from 'antd';
 import { LinkOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -5,6 +6,7 @@ import { CommentOutlined, StarOutlined } from '@ant-design/icons';
 import { addFavorite, removeFavorite } from '../../app/actions/favorites';
 import { loadFavoritesFromLocalStorage} from '../../helpers/localStorageHelpers';
 import style from './ResultCard.module.css';
+import {gist} from '../../constants/propTypesModels';
 
 const { Meta } = Card;
 const { Link, Text } = Typography;
@@ -15,6 +17,8 @@ const ResultCard = ({ gist, colSpan }) => {
 
   const { favoritesIdHash } = useSelector((state) => state);
   const { favoritesIdHash: idHashInLocalStorage } = loadFavoritesFromLocalStorage();
+  // we want to make sure the state is an accurate reflection of not only what could be in the redux state
+  // from user interaction, but also previously-persisted favorites in localStorage
   const mergedIdHash = {
     ...favoritesIdHash,
     ...idHashInLocalStorage,
@@ -22,6 +26,10 @@ const ResultCard = ({ gist, colSpan }) => {
 
   const dispatch = useDispatch();
 
+  // the merged favoritesIdHash (from redux state) and idHashInLocalStorage serves as a quick lookup
+  // when rendering a card so we can efficiently determine whether it is a favorite or not, and correctly
+  // render the card, not only in the search results, but also in the favorites; the hash lookup is
+  // far more performant (O(1)) than doing an array lookup (O(n))
   const isFavorite = typeof mergedIdHash[id] !== 'undefined';
 
   const onClickFavorite = (id, gist) => {
@@ -38,6 +46,8 @@ const ResultCard = ({ gist, colSpan }) => {
     gistTitle = '(no title provided)';
   }
 
+  // I find separating these types of elements out easier for maintenance; if they're placed within
+  // the main 'return ( )' component statement, it gets noisy
   const cardTitle = (
     <>
       <div className={style.usernameLink}>
@@ -56,6 +66,7 @@ const ResultCard = ({ gist, colSpan }) => {
     </>
   );
 
+  // same as above
   const cardDescription = (
     <div className={style.descriptionContainer}>
       <Text type="secondary" ellipsis>
@@ -76,10 +87,10 @@ const ResultCard = ({ gist, colSpan }) => {
         key={id}
         className={style.card}
         actions={[
-          <div className={style.commentsIconWrapper}>
+          <Tooltip placement="top" title="Comment viewing coming soon!">
             {comments}
             <CommentOutlined className={style.commentsIcon}/>
-          </div>,
+          </Tooltip>,
           <StarOutlined className={isFavorite ? style.starIconFavorited : null} onClick={() => onClickFavorite(id, gist)} />,
         ]}
       >
@@ -91,6 +102,11 @@ const ResultCard = ({ gist, colSpan }) => {
       </Card>
     </Col>
   );
+};
+
+ResultCard.propTypes = {
+  gist: PropTypes.shape(gist),
+  colSpan: PropTypes.number.isRequired,
 };
 
 export default ResultCard;
