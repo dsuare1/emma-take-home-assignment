@@ -1,6 +1,13 @@
 # Derrick Suarez - Emma Sr. Software Engineer Role
 ## Take Home Assignment
 
+### Tools used to build this app:
+1. create-react-app to bootstrap the project
+2. Ant Design Component Library (https://ant.design/)
+3. Redux global state manager (with hooks useSelector and useDispatch)
+4. React Hooks (useEffect, useState)
+5. localStorage for persisting favorites (per browser)
+
 ### To run the app:
 1. Clone the repository from github.com/dsuare1/emma-take-home-assignment
 2. From the command line, navigate to the directory and run:
@@ -14,12 +21,20 @@
 1. Navigate to the directory on the command line and run:
    1. $ npm run build
 
-### Tools used to build this app:
-1. create-react-app to bootstrap the project
-2. Ant Design Component Library (https://ant.design/)
-3. Redux global state manager (with hooks useSelector and useDispatch)
-4. React Hooks (useEffect, useState)
-5. localStorage for persisting favorites (per browser)
+### To deploy (using Netlify):
+1. Ensure that netlify-cli is installed:
+   1. $ which netlify
+      1. if successful, this should return something like:
+         1. /Users/{user}/.nvm/versions/node/v15.1.0/bin/netlify
+      2. if you get something like "netlify not found", install it:
+         1. $ npm install -g netlify
+2. Navigate to the directory on the command line and run:
+   1. $ netlify deploy
+      1. follow the command prompts, choosing "new site" and "./build" as the production directory
+      2. stdout will give you a "Website Draft URL"; you can visit this to ensure everything looks good
+      3. if it looks good, run:
+         1. $ netlify deploy --build
+         2. $ netlify deploy --prod
 
 ----
 ### Things I would add in the future:
